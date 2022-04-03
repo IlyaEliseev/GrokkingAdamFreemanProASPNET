@@ -34,11 +34,25 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.MapRazorPages();
+
 app.MapControllerRoute(
-    name: "pagination",
-    pattern: "Products/Page{productPage}",
+    name: null,
+    pattern: "{category}/Page{productPage:int}",
     defaults: new { Controller = "Product", action = "List" });
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Product}/{action=List}/{id?}");
+    name: null,
+    pattern: "Page{productPage:int}",
+    defaults: new { Controller = "Product", action = "List", productPage = 1 });
+app.MapControllerRoute(
+    name: null,
+    pattern: "{category}",
+    defaults: new { Controller = "Product", action = "List", productPage = 1 });
+app.MapControllerRoute(
+    name: null,
+    pattern: "",
+    defaults: new { Controller = "Product", action = "List", productPage = 1 });
+app.MapControllerRoute(
+    name: null,
+    pattern: "{controller}/{action}/{id?}");
+
 app.Run();
