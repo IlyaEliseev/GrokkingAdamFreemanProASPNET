@@ -8,6 +8,7 @@ namespace SportsStore.Controllers
     {
         private readonly IProductRepository _productRepository;
         public int PageSize = 4;
+
         public ProductController(IProductRepository productRepository)
         {
             _productRepository = productRepository;
@@ -24,7 +25,9 @@ namespace SportsStore.Controllers
             {
                 CurrentPage = productPage,
                 ItemsPerPage = PageSize,
-                TotalItems = _productRepository.Products.Count()
+                TotalItems = (category == null) ? 
+                _productRepository.Products.Count() :
+                _productRepository.Products.Where(x => x.Category == category).Count()
             },
             CurrentCategory = category
         });
